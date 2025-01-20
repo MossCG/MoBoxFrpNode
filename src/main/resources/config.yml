@@ -1,0 +1,9 @@
+# MoBoxFrp 节点配置文件
+# By MossCG
+
+# 主控地址（结尾不要有多余斜杠）
+address: "http://127.0.0.1:5555"
+
+# 节点编号及密码
+nodeID: "1"
+nodeAuth: "123"

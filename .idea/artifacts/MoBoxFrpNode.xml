@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MoBoxFrpNode">
+    <output-path>$PROJECT_DIR$/out/artifacts/MoBoxFrpNode</output-path>
+    <root id="archive" name="MoBoxFrpNode.jar">
+      <element id="module-output" name="MoBoxFrpNode" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/depend/MossLib.jar" path-in-jar="/" />
+      <element id="directory" name="dependency" />
+    </root>
+  </artifact>
+</component>
