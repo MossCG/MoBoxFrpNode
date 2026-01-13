@@ -7,3 +7,7 @@ address: "http://127.0.0.1:2026"
 # 节点编号及密码
 nodeID: "sz1"
 nodeAuth: "123"
+
+#系统类型
+#Windows or Linux
+systemType: "Windows"
