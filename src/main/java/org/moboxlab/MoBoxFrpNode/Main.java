@@ -3,6 +3,7 @@ package org.moboxlab.MoBoxFrpNode;
 import org.moboxlab.MoBoxFrpNode.Command.CommandDebug;
 import org.moboxlab.MoBoxFrpNode.Command.CommandExit;
 import org.moboxlab.MoBoxFrpNode.Task.TaskLogin;
+import org.moboxlab.MoBoxFrpNode.Tick.TickCode;
 import org.moboxlab.MoBoxFrpNode.Tick.TickStatus;
 import org.mossmc.mosscg.MossLib.Command.CommandManager;
 import org.mossmc.mosscg.MossLib.Config.ConfigManager;
@@ -46,6 +47,7 @@ public class Main {
         //Tick线程初始化
         BasicInfo.logger.sendInfo("正在启动Tick线程......");
         TickStatus.runTick();
+        TickCode.runTick();
 
         //命令行初始化
         CommandManager.initCommand(BasicInfo.logger,true);
