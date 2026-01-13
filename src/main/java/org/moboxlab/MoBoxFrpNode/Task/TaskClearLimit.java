@@ -24,13 +24,16 @@ public class TaskClearLimit {
     }
 
     @SuppressWarnings("StringBufferReplaceableByString")
-    private static void clearWindowsLimit() throws Exception{
+    private static void clearWindowsLimit(){
         StringBuilder command = new StringBuilder();
         command.append("powershell.exe Remove-NetQosPolicy -Confirm:$false");
         TaskExecuteCommand.executeTask(command.toString());
     }
 
-    private static void clearLinuxLimit() throws Exception{
-
+    private static void clearLinuxLimit(){
+        String network = BasicInfo.config.getString("network");
+        TaskExecuteCommand.executeTask("tc qdisc del dev "+network+" root");
+        TaskExecuteCommand.executeTask("tc qdisc add dev "+network+" root handle 1: htb default 20");
+        TaskExecuteCommand.executeTask("tc class add dev "+network+" parent 1: classid 1:1 htb rate 10000mbit");
     }
 }

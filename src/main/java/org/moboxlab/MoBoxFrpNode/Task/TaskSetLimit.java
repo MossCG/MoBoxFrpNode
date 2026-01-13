@@ -28,7 +28,7 @@ public class TaskSetLimit {
     }
 
     @SuppressWarnings("StringBufferReplaceableByString")
-    private static void setWindowsLimit(String token, int band) throws Exception{
+    private static void setWindowsLimit(String token, int band){
         StringBuilder command = new StringBuilder();
         command.append("powershell.exe New-NetQosPolicy ");
         command.append("-Name \"frps_").append(token).append("\" ");
@@ -38,7 +38,33 @@ public class TaskSetLimit {
         TaskExecuteCommand.executeTask(command.toString());
     }
 
-    private static void setLinuxLimit(int band, int port) throws Exception{
-
+    private static void setLinuxLimit(int band, int port){
+        String network = BasicInfo.config.getString("network");
+        //创建限速子类
+        StringBuilder command = new StringBuilder();
+        command.append("tc class add dev ").append(network).append(" ");
+        command.append("parent 1:1 ");
+        command.append("classid 1:").append(port).append(" ");
+        command.append("htb rate ").append(band).append("mbit ");
+        command.append("ceil ").append(band).append("mbit");
+        TaskExecuteCommand.executeTask(command.toString());
+        //添加入站过滤器
+        command = new StringBuilder();
+        command.append("tc filter add dev ").append(network).append(" ");
+        command.append("protocol ip ");
+        command.append("parent 1:0 ");
+        command.append("prio 1 u32 match ip ");
+        command.append("dport ").append(port).append(" 0xffff ");
+        command.append("flowid 1:").append(port);
+        TaskExecuteCommand.executeTask(command.toString());
+        //添加出站过滤器
+        command = new StringBuilder();
+        command.append("tc filter add dev ").append(network).append(" ");
+        command.append("protocol ip ");
+        command.append("parent 1:0 ");
+        command.append("prio 1 u32 match ip ");
+        command.append("sport ").append(port).append(" 0xffff ");
+        command.append("flowid 1:").append(port);
+        TaskExecuteCommand.executeTask(command.toString());
     }
 }

@@ -6,7 +6,6 @@ import org.moboxlab.MoBoxFrpNode.BasicInfo;
 public class TaskRemoveLimit {
     public static void executeTask(JSONObject data){
         try {
-            int band = data.getInteger("band");
             int port = data.getInteger("portServer");
             String token = data.getString("token");
             String systemType = BasicInfo.config.getString("systemType");
@@ -15,7 +14,7 @@ public class TaskRemoveLimit {
                     removeWindowsLimit(token);
                     break;
                 case "Linux":
-                    removeLinuxLimit(band,port);
+                    removeLinuxLimit(port);
                     break;
                 default:
                     BasicInfo.logger.sendWarn("不支持的平台类型: " + systemType);
@@ -28,7 +27,7 @@ public class TaskRemoveLimit {
     }
 
     @SuppressWarnings("StringBufferReplaceableByString")
-    private static void removeWindowsLimit(String token) throws Exception{
+    private static void removeWindowsLimit(String token){
         StringBuilder command = new StringBuilder();
         command.append("powershell.exe Remove-NetQosPolicy ");
         command.append("-Name \"frps_").append(token).append("\" ");
@@ -36,7 +35,20 @@ public class TaskRemoveLimit {
         TaskExecuteCommand.executeTask(command.toString());
     }
 
-    private static void removeLinuxLimit(int band, int port) throws Exception{
-
+    private static void removeLinuxLimit(int port){
+        String network = BasicInfo.config.getString("network");
+        //删除过滤器
+        StringBuilder command = new StringBuilder();
+        command.append("tc filter del dev ").append(network).append(" ");
+        command.append("protocol ip ");
+        command.append("parent 1:0 ");
+        command.append("prio 1 u32 ");
+        command.append("flowid 1:").append(port);
+        TaskExecuteCommand.executeTask(command.toString());
+        command = new StringBuilder();
+        command.append("tc class del dev ").append(network).append(" ");
+        command.append("parent 1:1 ");
+        command.append("classid 1:").append(port);
+        TaskExecuteCommand.executeTask(command.toString());
     }
 }

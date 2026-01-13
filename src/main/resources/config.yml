@@ -8,11 +8,12 @@ address: "http://127.0.0.1:2026"
 nodeID: "sz1"
 nodeAuth: "123"
 
-#系统类型
-#Windows or Linux
+# 系统类型
+# Windows or Linux
 systemType: "Windows"
-
+# 网络接口名称
+network: "eth0"
 
 #----------------------------------
-#是否显示调试信息
+# 是否显示调试信息
 debug: false
