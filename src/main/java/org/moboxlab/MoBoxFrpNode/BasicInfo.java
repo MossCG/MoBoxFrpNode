@@ -25,7 +25,7 @@ public class BasicInfo {
     public static ObjectConfig config;
 
     //Debug信息输出
-    public static boolean debug = false;
+    public static boolean debug = true;
     public static void sendDebug(String message) {
         logger.sendAPI(message,debug);
     }
