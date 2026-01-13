@@ -14,6 +14,9 @@ public class TaskUpdateFile {
             File[] list = file.listFiles();
             if (list != null) {
                 for (File rubbish : list) {
+                    if (!rubbish.getName().endsWith(".toml")) {
+                        TaskKillProcess.executeTask(rubbish.getName());
+                    }
                     rubbish.delete();
                 }
             }

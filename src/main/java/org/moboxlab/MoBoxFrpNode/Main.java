@@ -2,6 +2,7 @@ package org.moboxlab.MoBoxFrpNode;
 
 import org.moboxlab.MoBoxFrpNode.Command.CommandDebug;
 import org.moboxlab.MoBoxFrpNode.Command.CommandExit;
+import org.moboxlab.MoBoxFrpNode.Task.TaskClearLimit;
 import org.moboxlab.MoBoxFrpNode.Task.TaskLogin;
 import org.moboxlab.MoBoxFrpNode.Task.TaskUpdateFile;
 import org.moboxlab.MoBoxFrpNode.Tick.TickCode;
@@ -40,10 +41,12 @@ public class Main {
         //配置文件初始化
         BasicInfo.logger.sendInfo("正在读取配置文件......");
         BasicInfo.config = ConfigManager.getConfigObject("./MoBoxFrp", "config.yml", "config.yml");
+        BasicInfo.debug = BasicInfo.config.getBoolean("debug");
 
         //清理及更新文件
-        BasicInfo.logger.sendInfo("正在清理缓存文件......");
+        BasicInfo.logger.sendInfo("正在清理缓存......");
         TaskUpdateFile.executeTask();
+        TaskClearLimit.executeTask();
 
         //初始化API
         BasicInfo.logger.sendInfo("正在登录至主控......");

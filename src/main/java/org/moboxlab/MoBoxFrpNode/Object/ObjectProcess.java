@@ -3,6 +3,8 @@ package org.moboxlab.MoBoxFrpNode.Object;
 import com.alibaba.fastjson.JSONObject;
 import org.moboxlab.MoBoxFrpNode.BasicInfo;
 import org.moboxlab.MoBoxFrpNode.Task.TaskRemoveConfig;
+import org.moboxlab.MoBoxFrpNode.Task.TaskRemoveLimit;
+import org.moboxlab.MoBoxFrpNode.Task.TaskSetLimit;
 import org.moboxlab.MoBoxFrpNode.Task.TaskWriteConfig;
 
 import java.io.BufferedReader;
@@ -22,14 +24,18 @@ public class ObjectProcess {
     //配置文件名称
     public String configFile;
     //可执行文件名称
-    public String executeFile =  "./MoBoxFrp/frp/frps.exe";
+    public String executeFile;
 
     //启动方法
     public void start() throws Exception{
         BasicInfo.logger.sendInfo("正在启动穿透码："+name);
         //写入配置
         configFile = "./MoBoxFrp/frp/"+data.getString("token")+".toml";
+        executeFile = "./MoBoxFrp/frp/frps_"+data.getString("token");
+        if (BasicInfo.config.getString("systemType").equals("Windows")) executeFile += ".exe";
         TaskWriteConfig.executeTask(configFile,data);
+        //设置限速
+        TaskSetLimit.executeTask(data);
         //启动进程
         String command = executeFile+" -c "+configFile;
         process = Runtime.getRuntime().exec(command);
@@ -44,7 +50,9 @@ public class ObjectProcess {
         daemon.interrupt();
         process.destroy();
         //删除配置
-        TaskRemoveConfig.executeTask(configFile);
+        TaskRemoveConfig.executeTask(configFile,data);
+        //删除限速
+        TaskRemoveLimit.executeTask(data);
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
