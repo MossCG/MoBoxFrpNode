@@ -16,8 +16,6 @@ import org.mossmc.mosscg.MossLib.Object.ObjectLogger;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.moboxlab.MoBoxFrpNode.BasicInfo.logger;
-
 public class Main {
     public static void main(String[] args) {
         //计时
@@ -32,11 +30,11 @@ public class Main {
         FileDependency.loadDependencyDir("./MoBoxFrp/dependency", "dependency");
 
         //基础信息输出
-        logger.sendInfo("欢迎使用MoBoxFrp~这里是节点哦~");
-        logger.sendInfo("软件版本：" + BasicInfo.version + " " + BasicInfo.versionType);
-        logger.sendInfo("软件作者：" + BasicInfo.author);
-        logger.sendInfo("感谢以下贡献者：");
-        logger.sendInfo(BasicInfo.contributor);
+        BasicInfo.logger.sendInfo("欢迎使用MoBoxFrp~这里是节点哦~");
+        BasicInfo.logger.sendInfo("软件版本：" + BasicInfo.version + " " + BasicInfo.versionType);
+        BasicInfo.logger.sendInfo("软件作者：" + BasicInfo.author);
+        BasicInfo.logger.sendInfo("感谢以下贡献者：");
+        BasicInfo.logger.sendInfo(BasicInfo.contributor);
 
         //配置文件初始化
         BasicInfo.logger.sendInfo("正在读取配置文件......");
