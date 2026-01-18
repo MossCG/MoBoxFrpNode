@@ -12,7 +12,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class APIBasic {
-    public static JSONObject postAPI(String route,JSONObject data) {
+    @SuppressWarnings("ExtractMethodRecommender")
+    public static JSONObject postAPI(String route, JSONObject data) {
         try {
             //初始化必要信息
             String address = BasicInfo.config.getString("address");
@@ -23,6 +24,8 @@ public class APIBasic {
             //建立连接
             URL targetURL = new URL(address+route);
             HttpURLConnection connection = (HttpURLConnection) targetURL.openConnection();
+            connection.setConnectTimeout(30000);
+            connection.setReadTimeout(30000);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Connection", "keep-alive");
             connection.setRequestProperty("Content-Type","application/json;charset=utf8");
@@ -39,6 +42,8 @@ public class APIBasic {
             StringBuilder readInfo = new StringBuilder();
             while ((inputLine = reader.readLine()) != null) readInfo.append(inputLine);
             reader.close();
+            //关闭链接
+            connection.disconnect();
             //返回数据
             JSONObject result = JSONObject.parseObject(readInfo.toString());
             BasicInfo.sendDebug(result.toJSONString());
