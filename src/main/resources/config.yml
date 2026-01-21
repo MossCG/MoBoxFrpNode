@@ -13,6 +13,8 @@ nodeAuth: "123"
 systemType: "Windows"
 # 网络接口名称
 network: "eth0"
+# 命令行功能
+commandLine: true
 
 #----------------------------------
 # 是否显示调试信息

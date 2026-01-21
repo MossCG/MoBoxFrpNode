@@ -56,9 +56,11 @@ public class Main {
         TickCode.runTick();
 
         //命令行初始化
-        CommandManager.initCommand(BasicInfo.logger,true);
-        CommandManager.registerCommand(new CommandExit());
-        CommandManager.registerCommand(new CommandDebug());
+        if (BasicInfo.config.getBoolean("commandLine")) {
+            CommandManager.initCommand(BasicInfo.logger,true);
+            CommandManager.registerCommand(new CommandExit());
+            CommandManager.registerCommand(new CommandDebug());
+        }
 
         //计时
         long completeTime = System.currentTimeMillis();
