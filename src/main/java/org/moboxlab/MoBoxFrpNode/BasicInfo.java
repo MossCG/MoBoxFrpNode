@@ -11,7 +11,7 @@ public class BasicInfo {
     //小更新之间基本上只是小功能更新，可以上下兼容
     //修改次数只代表一些微调（但是基本上建议更新）
     //版本类型 Beta为测试版，Stable为稳定版
-    public static String version = "V1.1.2.1.2255";
+    public static String version = "V1.1.3.1.1400";
     public static String versionType = "Stable";
 
     //作者信息，请勿修改
@@ -27,6 +27,6 @@ public class BasicInfo {
     //Debug信息输出
     public static boolean debug = true;
     public static void sendDebug(String message) {
-        logger.sendAPI(message,debug);
+        if (debug) logger.sendAPI(message,true);
     }
 }
